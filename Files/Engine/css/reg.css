@@ -1,0 +1,24 @@
+body{
+  background: #f1f1f1;
+  display: block;
+}
+.reg{
+  display: block;
+  margin: auto;
+  padding-top: 10px;
+  max-width: 1000px;
+  height: 100%;
+}
+
+.regsite{
+  margin-bottom: 10px;
+}
+
+#go{
+  margin-top: 25px;
+  float: right;
+}
+
+.regtitle{
+  text-align: center;
+}

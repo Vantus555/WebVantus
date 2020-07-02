@@ -17,7 +17,7 @@
       ?>">
     </iframe>
 
-    <textarea id="EditText" class="
+    <div contenteditable="true" id="EditText" class="
       <?php
         $url = $_SERVER["REQUEST_URI"];
           if (!strstr($url,"type=text"))
@@ -28,7 +28,7 @@
       EditText"><?php
       if(strstr(mime_content_type($_GET["$open"]),'text/'))
         echo FileStream::ReadFile($_GET["$open"]);
-      ?></textarea>
+      ?></div>
 
   </div>
 </div>

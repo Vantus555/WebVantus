@@ -49,52 +49,6 @@
     }
   });
 
-  $(document).keydown(function(eventObject){
-    if(eventObject.key == 'Tab' && !$('#EditText').is(':focus')){
-      eventObject.preventDefault();
-      if(!$('#EditText').is(':focus'))
-        $('#EditText').focus();
-    }
-    else{
-      if(eventObject.key == 'Tab'){
-        eventObject.preventDefault();
-      }
-      if(eventObject.key == 'F1'){
-        eventObject.preventDefault();
-        let href = document.location.href;
-        let newhref;
-        if(href.indexOf('type=page') != -1)
-          newhref = href.replace(/type=page/gi, 'type=text');
-        else if(href.indexOf('type=text') != -1)
-          newhref = href.replace(/type=text/gi, 'type=page');
-        document.location.href = newhref;
-      }
-    }
-  });
-
-  $("#EditText").keydown(function(e) {
-    if(e.key === 'Tab') {
-      var start = $(this)[0].selectionStart;
-      var end = $(this)[0].selectionEnd;
-
-      var $this = $(this);
-      var value = $this.val();
-      $this.val(value.substring(0, start) + "\t" + value.substring(end));
-      $(this)[0].selectionEnd = start + 1;
-
-      e.preventDefault();
-    }
-  });
-
-  $("#EditText").blur(function() {
-    var formdata = new FormData();
-    formdata.append('data',$(this).val());
-    let file = "../../../../";
-    file+= "<?= $_GET["$open"] ?>";
-    formdata.append('file', file);
-    ajax.CreateAjax('Files/Engine/php/ajax/SafeFile.php', formdata);
-  });
-
   $('.Files').click(function(e){
     e.preventDefault();
 
@@ -203,4 +157,55 @@
       document.oncontextmenu = function(){return true;};
     }
   });
+
+
+    /*$(document).keydown(function(eventObject){
+      if(eventObject.key == 'Tab' && !$('#EditText').is(':focus')){
+        eventObject.preventDefault();
+        if(!$('#EditText').is(':focus'))
+          $('#EditText').focus();
+      }
+      else{
+        if(eventObject.key == 'Tab'){
+          eventObject.preventDefault();
+        }
+        if(eventObject.key == 'F1'){
+          eventObject.preventDefault();
+          let href = document.location.href;
+          let newhref;
+          if(href.indexOf('type=page') != -1)
+            newhref = href.replace(/type=page/gi, 'type=text');
+          else if(href.indexOf('type=text') != -1)
+            newhref = href.replace(/type=text/gi, 'type=page');
+          document.location.href = newhref;
+        }
+      }
+    });
+
+    $("#EditText").keydown(function(e) {
+      if(e.key === 'Tab') {
+        var start = $(this)[0].selectionStart;
+        var end = $(this)[0].selectionEnd;
+
+        var $this = $(this);
+        var value = $this.val();
+        $this.val(value.substring(0, start) + "\t" + value.substring(end));
+        $(this)[0].selectionEnd = start + 1;
+
+        e.preventDefault();
+      }
+    });
+
+    $("#EditText").blur(function() {
+      var formdata = new FormData();
+      formdata.append('data',$(this).val());
+      let file = "../../../../";
+      file+= "<?php //$_GET["$open"] ?>";
+      formdata.append('file', file);
+      ajax.CreateAjax('Files/Engine/php/ajax/SafeFile.php', formdata);
+    });*/
+    let frame = document.getElementById("EditText");
+    frame.contentDocument.designMode = "on";
+    let doc = getFrameDocument(frame);
+    doc.getElementsByName('body')[0].style.color = "white";
 </script>

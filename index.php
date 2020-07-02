@@ -165,7 +165,6 @@
 
   </script>
   <script type="text/javascript">
-
     $('.divhover').mouseover(function(){
       $($(this).children()[1]).show();
     });

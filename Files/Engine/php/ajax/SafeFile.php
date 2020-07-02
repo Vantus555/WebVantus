@@ -11,7 +11,7 @@
     }
   }
   finfo_close($finfo);
-  //alert('$a');
+  
   echo "";
 
  ?>

@@ -17,7 +17,7 @@
       ?>">
     </iframe>
 
-    <textarea id="EditText" class="
+    <div id="EditText" class="
       <?php
         $url = $_SERVER["REQUEST_URI"];
           if (!strstr($url,"type=text"))
@@ -25,10 +25,25 @@
           echo 'd-none';
         }
       ?>
-      EditText"><?php
-      if(strstr(mime_content_type($_GET["$open"]),'text/'))
-        echo FileStream::ReadFile($_GET["$open"]);
-      ?></textarea>
+      EditText" tabindex='1'><div class="line"><div id="cursor"></div></div></div>
 
   </div>
 </div>
+<?php
+  /*
+  if(strstr(mime_content_type($_GET["$open"]),'text/')){
+    $code = FileStream::ReadFile($_GET["$open"]);
+    $syntax = "";
+    for ($i=0; $i < strlen($code); $i++) {
+      if($code[$i] == '<'){
+        $syntax .= "<span><<span>";
+      }
+      else if($code[$i] == '>'){
+        $syntax .= "<span>><span>";
+      }
+      else $syntax .= $code[$i];
+    }
+    echo $syntax;
+  }
+  */
+ ?>

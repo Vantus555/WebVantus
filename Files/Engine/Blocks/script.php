@@ -2,6 +2,7 @@
 <script src="Files/Engine/js/ajax.js"></script>
 
 <script type="text/javascript">
+/////////////////////////////////Folder///////////////////////////////////////
   $('.opendir').click(function(e){
     e.preventDefault();
     let folder = $($(this).children()[0]).children()[0];
@@ -49,52 +50,6 @@
     }
   });
 
-  $(document).keydown(function(eventObject){
-    if(eventObject.key == 'Tab' && !$('#EditText').is(':focus')){
-      eventObject.preventDefault();
-      if(!$('#EditText').is(':focus'))
-        $('#EditText').focus();
-    }
-    else{
-      if(eventObject.key == 'Tab'){
-        eventObject.preventDefault();
-      }
-      if(eventObject.key == 'F1'){
-        eventObject.preventDefault();
-        let href = document.location.href;
-        let newhref;
-        if(href.indexOf('type=page') != -1)
-          newhref = href.replace(/type=page/gi, 'type=text');
-        else if(href.indexOf('type=text') != -1)
-          newhref = href.replace(/type=text/gi, 'type=page');
-        document.location.href = newhref;
-      }
-    }
-  });
-
-  $("#EditText").keydown(function(e) {
-    if(e.key === 'Tab') {
-      var start = $(this)[0].selectionStart;
-      var end = $(this)[0].selectionEnd;
-
-      var $this = $(this);
-      var value = $this.val();
-      $this.val(value.substring(0, start) + "\t" + value.substring(end));
-      $(this)[0].selectionEnd = start + 1;
-
-      e.preventDefault();
-    }
-  });
-
-  $("#EditText").blur(function() {
-    var formdata = new FormData();
-    formdata.append('data',$(this).val());
-    let file = "../../../../";
-    file+= "<?= $_GET["$open"] ?>";
-    formdata.append('file', file);
-    ajax.CreateAjax('Files/Engine/php/ajax/SafeFile.php', formdata);
-  });
-
   $('.Files').click(function(e){
     e.preventDefault();
 
@@ -121,7 +76,6 @@
     $('.popupwindow').css({'display' : 'flex'});
     $('.radiobtn').show();
     $('.renamebtn').hide();
-    //alert($($($(this).parent().children()[0]).children()[0]).attr('href'));
     $('#input-href').val($($($(this).parent().children()[0]).children()[0]).attr('href'));
   });
 
@@ -149,7 +103,6 @@
   $('.open').mouseup(function(event){
     if(event.which == 3){
       $('.FileSettigs').attr('data-filedelete', $(this).attr('data-delete-rename-href'));
-      //$(this).append('<div tabindex="2" class="FileSettigs"><a class="delete" href="">Удалить</a><a href="">Переименовать</a></div>')
       $('.FileSettigs').css({
         'display' : 'block',
         'left' : event.pageX,
@@ -162,7 +115,6 @@
 
   $('.delete').click(function(e){
     e.preventDefault();
-    //alert($('.FileSettigs').attr('data-filedelete'));
     var formdata = new FormData();
     formdata.append('name',$('.FileSettigs').attr('data-filedelete'));
     ajax.CreateAjax('Files/Engine/php/ajax/Delete.php', formdata);
@@ -202,5 +154,145 @@
       $('.FileSettigs').focus();
       document.oncontextmenu = function(){return true;};
     }
+  });
+////////////////Editor///////////////////////////////////////////////
+
+  $(document).keydown(function(eventObject){
+    if(eventObject.key == 'F1'){
+      eventObject.preventDefault();
+      let href = document.location.href;
+      let newhref;
+      if(href.indexOf('type=page') != -1)
+        newhref = href.replace(/type=page/gi, 'type=text');
+      else if(href.indexOf('type=text') != -1)
+        newhref = href.replace(/type=text/gi, 'type=page');
+      document.location.href = newhref;
+    }
+  });
+
+  $("#EditText").focus(function() {
+    $(this).find('#cursor').css({
+      'display' : "inline-flex"
+    });
+  });
+
+  $("#EditText").blur(function() {
+    $(this).find('#cursor').css({
+      'display' : "none"
+    });
+    var formdata = new FormData();
+    formdata.append('data',$(this).text());
+    let file = "../../../../";
+    file+= "<?= $_GET["$open"] ?>";
+    formdata.append('file', file);
+    //ajax.CreateAjax('Files/Engine/php/ajax/SafeFile.php', formdata);
+  });
+
+
+    function replace(code){
+      let tag = [];
+      let opentags = $(code).find('.opentag');
+      for (var i = 0; i < opentags.length; i++) {
+        let symbol = $(opentags[i]).next();
+        while(symbol.text() != '>'){
+          if(symbol){
+            symbol.addClass('href');
+            symbol = symbol.next();
+          }
+        }
+      }
+
+    }
+
+  $("#EditText").keydown(function(e) {
+    //alert(0);
+    e.preventDefault();
+    if(e.key == 'Tab') {
+      $(this).find('#cursor').before("<span class='symbol'>"+'\t'+"</span>");
+      /*var start = $(this)[0].selectionStart;
+      var end = $(this)[0].selectionEnd;
+
+      var $this = $(this);
+      var value = $this.val();
+      $this.val(value.substring(0, start) + "\t" + value.substring(end));
+      $(this)[0].selectionEnd = start + 1;*/
+    }
+    else if(e.key == 'Enter'){
+      let newline = $("<div class='line'></div>");
+      newline.append($('#cursor'));
+      $(this).append(newline);
+    }
+    else if(e.key == 'Backspace'){
+      $(this).find('#cursor').prev().remove();
+    }
+    else if(e.key == 'Delete'){
+      $(this).find('#cursor').next().remove();
+    }
+    else if(e.key == 'ArrowLeft'){
+      let prev = $(this).find('#cursor').prev();
+      if(prev[0]){
+        if(prev[0].tagName == 'SPAN')
+          prev.before($('#cursor'));
+      }
+      else{
+        let lastline = $(this).find('#cursor').parent().prev();
+        if(lastline[0])
+          lastline.append($('#cursor'));
+      }
+    }
+    else if(e.key == 'ArrowRight'){
+      let next = $(this).find('#cursor').next();
+      if(next[0]){
+        if(next[0].tagName == 'SPAN')
+          next.after($('#cursor'));
+      }
+      else{
+        let nextline = $(this).find('#cursor').parent().next();
+        //alert(nextline[0].tagName);
+        if(nextline[0])
+          nextline.prepend($('#cursor'));
+      }
+    }
+    else if(e.key == 'ArrowUp'){
+      let spancount = $(this).find('#cursor').prevAll();
+      let Up = $(this).find('#cursor').parent().prev();
+      if(Up[0]){
+        let spanUp = $(Up).find('.symbol');
+        if(spancount.length < spanUp.length)
+          $(spanUp[spancount.length]).before($('#cursor'));
+        else
+          Up.append($('#cursor'));
+      }
+    }
+    else if(e.key == 'ArrowDown'){
+      let spancount = $(this).find('#cursor').prevAll();
+      let Up = $(this).find('#cursor').parent().next();
+      if(Up[0]){
+        let spanUp = $(Up).find('.symbol');
+        if(spancount.length < spanUp.length)
+          $(spanUp[spancount.length]).before($('#cursor'));
+        else
+          Up.append($('#cursor'));
+      }
+    }
+    else if(e.key != 'F1' && e.key != 'Shift'){
+      /*if(e.key == '<')
+        $(this).find('#cursor').before("<span class='symbol opentag'>"+e.key+"</span>");
+      else
+        $(this).find('#cursor').before("<span class='symbol'>"+e.key+"</span>");
+      let code = $(this).html();
+      //code = code.replace('<span class="symbol">d</span><span class="symbol">i</span><span class="symbol">v</span>','<span class="href"><span class="symbol wrap">d</span><span class="symbol wrap">i</span><span class="symbol wrap">v</span></span>');
+      //alert(code);
+      replace(code);*/
+      //$(this).html(code);
+    }
+  });
+
+  $('body').on('click','.symbol',function(){
+    $(this).before($('#cursor'));
+  });
+  $('body').on('click','.line',function(e){
+    if(e.target.tagName == 'DIV')
+      $(this).append($('#cursor'));
   });
 </script>

@@ -29,6 +29,7 @@
 
   </div>
 </div>
+
 <?php
   /*
   if(strstr(mime_content_type($_GET["$open"]),'text/')){

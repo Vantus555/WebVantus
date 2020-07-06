@@ -2,6 +2,8 @@
 <script src="Files/Engine/js/ajax.js"></script>
 
 <script type="text/javascript">
+let arrow_left;
+let arrow_right;
 /////////////////////////////////Folder///////////////////////////////////////
   $('.opendir').click(function(e){
     e.preventDefault();
@@ -205,7 +207,6 @@
     }
 
   $("#EditText").keydown(function(e) {
-    //alert(0);
     e.preventDefault();
     if(e.key == 'Tab') {
       $(this).find('#cursor').before("<span class='symbol'>"+'\t'+"</span>");
@@ -218,15 +219,77 @@
       $(this)[0].selectionEnd = start + 1;*/
     }
     else if(e.key == 'Enter'){
+      let cursor = $(this).find('#cursor');
       let newline = $("<div class='line'></div>");
-      newline.append($('#cursor'));
-      $(this).append(newline);
+      if(!cursor.next()[0]){
+        newline.append($('#cursor'));
+        $(this).append(newline);
+      }
+      else {
+        let next = cursor.next();
+        let parent = cursor.parent();
+        newline.append($('#cursor'));
+        while (next[0]) {
+          let n = next[0];
+          next = $(next[0]).next();
+          newline.append(n);
+        }
+        parent.after(newline);
+      }
     }
     else if(e.key == 'Backspace'){
-      $(this).find('#cursor').prev().remove();
+      let cursor = $(this).find('#cursor');
+      let prev = cursor.prev();
+      if(prev.text() != '<'){
+        if(prev[0]){
+          prev.remove();
+        }
+        else {
+          let parent = cursor.parent();
+          let linehtml = parent.html();
+          let prevline = parent.prev();
+
+          if(prevline[0]){
+            parent.remove();
+            prevline.append(linehtml);
+          }
+        }
+      }
+      else{
+        next2 = prev.next();
+        prev.remove();
+        while(next2[0] && next2.text() != '<'){
+          next2.removeClass('href');
+          next2 = next2.next();
+        }
+      }
     }
     else if(e.key == 'Delete'){
-      $(this).find('#cursor').next().remove();
+      let cursor = $(this).find('#cursor');
+      let next = cursor.next();
+      if(next.text() != '<'){
+        if(next[0]){
+          next.remove();
+        }
+        else {
+          let parent = cursor.parent();
+          let nextline = parent.next();
+          let linehtml = nextline.html();
+
+          if(nextline[0]){
+            nextline.remove();
+            parent.append(linehtml);
+          }
+        }
+      }
+      else{
+        next2 = next.next();
+        next.remove();
+        while(next2[0] && next2.text() != '<'){
+          next2.removeClass('href');
+          next2 = next2.next();
+        }
+      }
     }
     else if(e.key == 'ArrowLeft'){
       let prev = $(this).find('#cursor').prev();
@@ -276,23 +339,48 @@
       }
     }
     else if(e.key != 'F1' && e.key != 'Shift'){
-      /*if(e.key == '<')
+      if(e.key == '>'){
+        arrow_left = false;
         $(this).find('#cursor').before("<span class='symbol opentag'>"+e.key+"</span>");
-      else
-        $(this).find('#cursor').before("<span class='symbol'>"+e.key+"</span>");
+      }
+      else if(e.key == '<'){
+        arrow_left = true;
+        let cursor = $(this).find('#cursor');
+        cursor.before("<span class='symbol opentag'>"+e.key+"</span>");
+        let next = cursor.next();
+        while(next.text() != '<' && next.text() != '>' && next[0]){
+          next.addClass('href');
+          next = next.next();
+        }
+      }
+      else{
+        if(arrow_left)
+          $(this).find('#cursor').before("<span class='symbol href'>"+e.key+"</span>");
+        else $(this).find('#cursor').before("<span class='symbol'>"+e.key+"</span>");
+      }
       let code = $(this).html();
       //code = code.replace('<span class="symbol">d</span><span class="symbol">i</span><span class="symbol">v</span>','<span class="href"><span class="symbol wrap">d</span><span class="symbol wrap">i</span><span class="symbol wrap">v</span></span>');
       //alert(code);
-      replace(code);*/
+      //replace(code);
       //$(this).html(code);
     }
   });
 
   $('body').on('click','.symbol',function(){
     $(this).before($('#cursor'));
+    let parent = $(this).parent();
+    if(!parent.hasClass('active-line')){
+      $('.active-line').removeClass('active-line');
+      parent.addClass('active-line');
+    }
   });
   $('body').on('click','.line',function(e){
-    if(e.target.tagName == 'DIV')
+    if(e.target.tagName == 'DIV'){
       $(this).append($('#cursor'));
+      if(!$(this).hasClass('active-line')){
+        $('.active-line').removeClass('active-line');
+        $(this).addClass('active-line');
+      }
+    }
   });
 </script>

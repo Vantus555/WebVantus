@@ -260,7 +260,10 @@ iframe{
 }
 
 .line{
-  height: calc(var(--FONT-SIZE-EDITOR) + calc(var(--FONT-SIZE-EDITOR) / 2.5));
+  height: calc(var(--FONT-SIZE-EDITOR) + calc(var(--FONT-SIZE-EDITOR) / 1.4));
+  box-sizing: border-box;
+  margin-left: -4px;
+  padding-left: 4px;
   font-size: var(--FONT-SIZE-EDITOR);
 }
 
@@ -443,4 +446,9 @@ iframe{
 
 .href{
   color: red;
+}
+
+.active-line{
+  border-top: 3px solid #707070;
+  border-bottom: 3px solid #707070;
 }

@@ -16,16 +16,23 @@
         viewpage" src="<?= $_GET["$open"]
       ?>">
     </iframe>
-
-    <div id="EditText" class="
+    <div id="Editor" class="
       <?php
         $url = $_SERVER["REQUEST_URI"];
           if (!strstr($url,"type=text"))
         {
           echo 'd-none';
         }
-      ?>
-      EditText" tabindex='1'><div class="line"><div id="cursor"></div></div></div>
+      ?>">
+      <div class="numerationLine">
+        <div class="numline">
+          1
+        </div>
+      </div>
+      <div class="overflowText">
+        <div id="EditText" class="EditText" tabindex='1'><div class="line"><div id="cursor"></div></div></div>
+      </div>
+    </div>
 
   </div>
 </div>

@@ -482,8 +482,12 @@ iframe{
   height: var(--TEXT-RESIZE);
 }
 
-.href{
-  color: red;
+.inside-tag{
+  color: #D19A66;
+}
+
+.tag{
+  color: #E06C75;
 }
 
 .active-line{

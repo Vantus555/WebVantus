@@ -2,8 +2,6 @@
 <script src="Files/Engine/js/ajax.js"></script>
 
 <script type="text/javascript">
-let arrow_left;
-let arrow_right;
 /////////////////////////////////Folder///////////////////////////////////////
   $('.opendir').click(function(e){
     e.preventDefault();
@@ -193,12 +191,25 @@ let arrow_right;
     $(this).find('#cursor').css({
       'display' : "none"
     });
+    let lines = $('.line');
+    let data = '';
+    /*$.each(lines, function(index, value){
+        data += $(value).text();
+        if(lines.length-1!=index)
+          data += '\n';
+    });*/
+    for (var i = 0; i < lines.length; i++) {
+      data += $(lines[i]).text();
+      if(i != lines.length-1)
+        data+='\n';
+    }
+
     var formdata = new FormData();
-    formdata.append('data',$(this).text());
+    formdata.append('data',data);
     let file = "../../../../";
     file+= "<?= $_GET["$open"] ?>";
     formdata.append('file', file);
-    //ajax.CreateAjax('Files/Engine/php/ajax/SafeFile.php', formdata);
+    ajax.CreateAjax('Files/Engine/php/ajax/SafeFile.php', formdata);
   });
 
   $("#EditText").keydown(function(e) {
@@ -217,6 +228,14 @@ let arrow_right;
       let cursor = $(this).find('#cursor');
       let newline = $("<div class='line'></div>");
       let parent = cursor.parent();
+
+      let tabchild = cursor.parent().children();
+      for (var i = 0; i < tabchild.length; i++) {
+        if($(tabchild[i]).text() == '\t')
+          newline.append("<span class='symbol'>\t</span>");
+        else break;
+      }
+
       if(!cursor.next()[0]){
         newline.append($('#cursor'));
         parent.after(newline);
@@ -279,6 +298,7 @@ let arrow_right;
           let linehtml = nextline.html();
 
           if(nextline[0]){
+            $(".numline:last").remove();
             nextline.remove();
             parent.append(linehtml);
           }
@@ -350,11 +370,9 @@ let arrow_right;
   && e.key != 'Control'
   && e.key != 'Alt'){
       if(e.key == '>'){
-        arrow_left = false;
-        $(this).find('#cursor').before("<span class='symbol opentag'>"+e.key+"</span>");
+        $(this).find('#cursor').before("<span class='symbol closetag'>"+e.key+"</span>");
       }
       else if(e.key == '<'){
-        arrow_left = true;
         let cursor = $(this).find('#cursor');
         cursor.before("<span class='symbol opentag'>"+e.key+"</span>");
         let next = cursor.next();
@@ -364,9 +382,14 @@ let arrow_right;
         }
       }
       else{
-        if(arrow_left)
-          $(this).find('#cursor').before("<span class='symbol href'>"+e.key+"</span>");
-        else $(this).find('#cursor').before("<span class='symbol'>"+e.key+"</span>");
+        let cursor = $(this).find('#cursor');
+        if((cursor.prev().hasClass('tag')
+        || cursor.prev().hasClass('opentag'))
+        && cursor.prev().text()!=' ')
+          cursor.before("<span class='symbol tag'>"+e.key+"</span>");
+        else if(cursor.prev().hasClass('tag') || cursor.prev().hasClass('inside-tag'))
+          cursor.before("<span class='symbol inside-tag'>"+e.key+"</span>");
+        else cursor.before("<span class='symbol'>"+e.key+"</span>");
       }
       let code = $(this).html();
       //code = code.replace('<span class="symbol">d</span><span class="symbol">i</span><span class="symbol">v</span>','<span class="href"><span class="symbol wrap">d</span><span class="symbol wrap">i</span><span class="symbol wrap">v</span></span>');

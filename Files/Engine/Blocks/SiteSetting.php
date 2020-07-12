@@ -2,13 +2,50 @@
  function FormatinFile($text){
    if($text){
      $res='';
+     $lines = explode("\r\n", $text);
+     if(count($lines) <= 1)
      $lines = explode("\n", $text);
+     //return $lines[0];
 
      for ($i=0; $i < count($lines); $i++) {
         $resline = "";
         $opentag = false;
         $insedetag = false;
-        for ($j=0; $j < strlen($lines[$i]); $j++) {
+        foreach (preg_split('//u', $lines[$i]) as $key) {
+            if($key == '<'){
+              $opentag = true;
+              $insedetag = false;
+              $resline .= "<span class='symbol opentag'>".$key."</span>";
+            }
+            else if($key == '>' || ($key == ' ' && $opentag)){
+              if($key == '>'){
+                $opentag = false;
+                $insedetag = false;
+                $resline .= "<span class='symbol closetag'>".$key."</span>";
+              }
+              else{
+                $opentag = false;
+                $insedetag = true;
+                $resline .= "<span class='symbol inside-tag'>".$key."</span>";
+              }
+            }
+            else{
+              if($opentag && !$insedetag)
+                $resline .= "<span class='symbol tag'>".$key."</span>";
+              else if(!$opentag && $insedetag)
+                $resline .= "<span class='symbol inside-tag'>".$key."</span>";
+              else if(!$insedetag && !$insedetag) $resline .= "<span class='symbol'>".$key."</span>";
+            }
+          }
+          if($i==0)
+            $resline = "<div class='line'><div id='cursor'></div>".$resline."</div>";
+          else
+            $resline = "<div class='line'>".$resline."</div>";
+          $res .= $resline;
+
+        }
+
+        /*for ($j=0; $j < mb_strlen($lines[$i]); $j++) {
           if($lines[$i][$j] == '<'){
             $opentag = true;
             $insedetag = false;
@@ -39,7 +76,7 @@
         else
           $resline = "<div class='line'>".$resline."</div>";
         $res .= $resline;
-     }
+     }*/
 
     return $res;
    }
@@ -94,34 +131,21 @@
       <div class="numerationLine">
         <?php
           require_once 'Files/Engine/php/classes/FileStream.php';
-          echo NumLine(FileStream::ReadFile($_GET["$open"]));
+          $finfo = finfo_open(FILEINFO_MIME_TYPE);
+          if(strstr(finfo_file($finfo, $_GET["$open"]),'text/') || strstr(finfo_file($finfo, $_GET["$open"]),'empty')){
+            echo NumLine(FileStream::ReadFile($_GET["$open"]));
+          }
         ?>
       </div>
       <div class="overflowText">
         <div id="EditText" class="EditText" tabindex='1'><?php
+          $finfo = finfo_open(FILEINFO_MIME_TYPE);
+          if(strstr(finfo_file($finfo, $_GET["$open"]),'text/') || strstr(finfo_file($finfo, $_GET["$open"]),'empty')){
             echo FormatinFile(FileStream::ReadFile($_GET["$open"]));
-          ?></div>
+          }
+        ?></div>
       </div>
     </div>
 
   </div>
 </div>
-
-<?php
-  /*
-  if(strstr(mime_content_type($_GET["$open"]),'text/')){
-    $code = FileStream::ReadFile($_GET["$open"]);
-    $syntax = "";
-    for ($i=0; $i < strlen($code); $i++) {
-      if($code[$i] == '<'){
-        $syntax .= "<span><<span>";
-      }
-      else if($code[$i] == '>'){
-        $syntax .= "<span>><span>";
-      }
-      else $syntax .= $code[$i];
-    }
-    echo $syntax;
-  }
-  */
- ?>

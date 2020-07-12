@@ -193,11 +193,6 @@
     });
     let lines = $('.line');
     let data = '';
-    /*$.each(lines, function(index, value){
-        data += $(value).text();
-        if(lines.length-1!=index)
-          data += '\n';
-    });*/
     for (var i = 0; i < lines.length; i++) {
       data += $(lines[i]).text();
       if(i != lines.length-1)
@@ -213,8 +208,12 @@
   });
 
   $("#EditText").keydown(function(e) {
+    //console.log(e);
     e.preventDefault();
-    if(e.key == 'Tab') {
+    if(e.key == 'c' && e.ctrlKey){
+      //alert(1);
+    }
+    else if(e.key == 'Tab') {
       $(this).find('#cursor').before("<span class='symbol'>"+'\t'+"</span>");
       /*var start = $(this)[0].selectionStart;
       var end = $(this)[0].selectionEnd;
@@ -257,30 +256,36 @@
       activeLine();
     }
     else if(e.key == 'Backspace'){
-      let cursor = $(this).find('#cursor');
-      let prev = cursor.prev();
-      if(prev.text() != '<'){
-        if(prev[0]){
-          prev.remove();
-        }
-        else {
-          let parent = cursor.parent();
-          let linehtml = parent.html();
-          let prevline = parent.prev();
-
-          if(prevline[0]){
-            $(".numline:last").remove();
-            parent.remove();
-            prevline.append(linehtml);
-          }
-        }
+      let range = window.getSelection().getRangeAt(0);// попробовать removeRange()
+      if(range != ''){
+        range.deleteContents();
       }
       else{
-        next2 = prev.next();
-        prev.remove();
-        while(next2[0] && next2.text() != '<'){
-          next2.removeClass('href');
-          next2 = next2.next();
+        let cursor = $(this).find('#cursor');
+        let prev = cursor.prev();
+        if(prev.text() != '<'){
+          if(prev[0]){
+            prev.remove();
+          }
+          else {
+            let parent = cursor.parent();
+            let linehtml = parent.html();
+            let prevline = parent.prev();
+
+            if(prevline[0]){
+              $(".numline:last").remove();
+              parent.remove();
+              prevline.append(linehtml);
+            }
+          }
+        }
+        else{
+          next2 = prev.next();
+          prev.remove();
+          while(next2[0] && next2.text() != '<'){
+            next2.removeClass('href');
+            next2 = next2.next();
+          }
         }
       }
       activeLine();
@@ -392,10 +397,7 @@
         else cursor.before("<span class='symbol'>"+e.key+"</span>");
       }
       let code = $(this).html();
-      //code = code.replace('<span class="symbol">d</span><span class="symbol">i</span><span class="symbol">v</span>','<span class="href"><span class="symbol wrap">d</span><span class="symbol wrap">i</span><span class="symbol wrap">v</span></span>');
-      //alert(code);
-      //replace(code);
-      //$(this).html(code);
+      ctrl = false;
     }
   });
 

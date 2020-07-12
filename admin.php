@@ -1,3 +1,13 @@
+<?php
+mb_internal_encoding('UTF-8');
+mb_regex_encoding('UTF-8');
+mb_http_output('UTF-8');
+mb_language('uni');
+// Вывод заголовка с данными о кодировке страницы
+header('Content-Type: text/html; charset=utf-8');
+// Настройка локали
+setlocale(LC_ALL, 'ru_RU.65001', 'rus_RUS.65001', 'Russian_Russia. 65001', 'russian');
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -18,7 +28,7 @@
         if($_GET['file'] == '')
           require_once 'Files/Engine/Blocks/mainInfo.php';
         else require_once "Files/Engine/Blocks/" . $_GET['file'];
-       ?> 
+       ?>
     </main>
   </body>
   <?php

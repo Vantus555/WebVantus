@@ -1,5 +1,11 @@
 <?php
 
+mb_internal_encoding('UTF-8');
+mb_regex_encoding('UTF-8');
+mb_http_output('UTF-8');
+mb_language('uni');
+setlocale(LC_ALL, 'ru_RU.65001', 'rus_RUS.65001', 'Russian_Russia. 65001', 'russian');
+
 class FileStream{
   static function WritePhpArray($arr, $filepath){
     $open = fopen("$filepath", "w");
@@ -34,6 +40,16 @@ class FileStream{
   }
   static function ReadFile($filepath){
     return file_get_contents($filepath);
+  }
+  static function ReadArrayFile($filepath){
+    $res = '';
+
+    $f = fopen($filepath, 'r');
+    while(!feof($f))
+      array_push($res, fgets($f));
+
+    fclose($f);
+    return $res;
   }
   static function WriteToFile($filepath, $data){
     file_put_contents($filepath, $data);

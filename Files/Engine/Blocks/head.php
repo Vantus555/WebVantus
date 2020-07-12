@@ -1,4 +1,4 @@
-<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?=$title;?></title>
 <link rel="stylesheet" href="Files/Engine/css/main.css">
 <link rel="stylesheet" href="Frameworks/Bootstrap/css/bootstrap.min.css">

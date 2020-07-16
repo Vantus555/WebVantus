@@ -1,4 +1,5 @@
 <script src="Frameworks/jQuery/jquery-3.5.1.min.js"></script>
+<script src="Frameworks/jQuery/jquery-ui.min.js"></script>
 <script src="Files/Engine/js/ajax.js"></script>
 
 <script type="text/javascript">
@@ -7,13 +8,14 @@
     e.preventDefault();
     let folder = $($(this).children()[0]).children()[0];
     let openul = $(this).attr('data-ul');
-    if($("ul[data-ul='ul-"+openul+"']").is(':visible')){
+    let elem = openul.substring(0, 2);
+    if($("ul[data-ul='"+elem+"-"+openul+"']").is(':visible')){
       $(folder).attr('src', 'Files/Engine/img/FolderClose.svg');
-      $("ul[data-ul='ul-"+openul+"']").hide();
+      $("ul[data-ul='"+elem+"-"+openul+"']").hide();
     }
     else{
       $(folder).attr('src', 'Files/Engine/img/FolderOpen.svg');
-      $("ul[data-ul='ul-"+openul+"']").show();
+      $("ul[data-ul='"+elem+"-"+openul+"']").show();
     }
   });
 
@@ -41,11 +43,15 @@
     }
 
     let activedir = $('.activedir');
-    if(activedir.length > 0){
-      for (var i = 0; i < activedir.length; i++) {
-        $($(activedir[i]).parent().children()[1]).show();
-        let folder = $($($(activedir[i]).children()[0]).children()[0]).children()[0];
-        $(folder).attr('src', 'Files/Engine/img/FolderOpen.svg');
+    let addElem = document.location.search;
+
+    if(addElem.indexOf("type=constructor") == -1){
+      if(activedir.length > 0){
+        for (var i = 0; i < activedir.length; i++) {
+          $($(activedir[i]).parent().children()[1]).show();
+          let folder = $($($(activedir[i]).children()[0]).children()[0]).children()[0];
+          $(folder).attr('src', 'Files/Engine/img/FolderOpen.svg');
+        }
       }
     }
   });
@@ -401,14 +407,43 @@
     }
   });
 
-  $('body').on('click','.symbol',function(){
-    $(this).before($('#cursor'));
-    activeLine();
-  });
+    $('body').on('click','.symbol',function(){
+      $(this).before($('#cursor'));
+      activeLine();
+    });
   $('body').on('click','.line',function(e){
     if(e.target.tagName == 'DIV'){
       $(this).append($('#cursor'));
       activeLine();
     }
   });
+   /////////////////////////Constructor/////////////////////////////////////
+
+   /*let link = '<link id="mainCss" rel="stylesheet" href="Files/Engine/css/main.css">';
+   $('.drag').draggable({
+    helper: "clone"
+   });
+   $("#Constructor").droppable({
+    drop: function(event, ui) {
+      //alert(ui.draggable.text());
+      let contents = $(this).contents();
+      if(contents.find('#mainCss').length == 0){
+        contents.find('head').append(link);
+      }
+      if(!ui.draggable.attr("data-head"))
+        contents.find('body').append(ui.draggable.attr("data-elem"));
+      else{
+        contents.find('head').empty();
+        contents.find('head').append(ui.draggable.attr("data-head"));
+      }
+    }
+   });
+  $(document).onload(function(){
+    let iframe_constructor = document.getElementById("Constructor");
+    iframe_constructor.contentDocument.designMode = "on";
+    let addElem = document.location.search;
+    if(addElem.indexOf("type=constructor") != -1){
+      $('ul[data-ul="ul-ul1"]').hide();
+    }
+  });*/
 </script>

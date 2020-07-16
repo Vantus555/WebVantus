@@ -41,7 +41,7 @@ class FileStream{
   static function ReadFile($filepath){
     return file_get_contents($filepath);
   }
-  static function ReadArrayFile($filepath){
+  static function ReadLinesFile($filepath){
     $res = '';
 
     $f = fopen($filepath, 'r');
@@ -51,8 +51,31 @@ class FileStream{
     fclose($f);
     return $res;
   }
+
   static function WriteToFile($filepath, $data){
     file_put_contents($filepath, $data);
+  }
+
+  static function GetHtml($filepath){
+    $text = file_get_contents($filepath);
+
+    $indexHeadOpen = strripos($text, "<head>",0);
+    $indexHeadClose = strripos($text, "</head>",0);
+    $arr['head'] = trim(substr($text, $indexHeadOpen + 6, $indexHeadClose - $indexHeadOpen - 6));
+
+    $indexBodyOpen = strripos($text, "<body>",0);
+    $indexBodyClose = strripos($text, "</body>",0);
+    $arr['body'] = trim(substr($text, $indexBodyOpen + 6, $indexBodyClose - $indexBodyOpen - 6));
+
+    $textnew = str_replace($arr['body'], '', $text);
+    $textnew = str_replace($arr['head'], '', $textnew);
+
+    $replace = array("<!DOCTYPE html>", "<html>", "</html>", "<head>", "</head>", "<body>", "</body>");
+    $textnew = str_replace($replace, '', $textnew);
+
+    $arr['html'] = trim($textnew);
+
+    return $arr;
   }
 }
 

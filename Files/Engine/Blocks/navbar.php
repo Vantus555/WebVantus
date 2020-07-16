@@ -176,6 +176,54 @@
       </div>
     </div>
     <!----------------------------------------------------------------------------------------->
+    <div class="text-light">
+      <?php $open = "open";
+      $type = "&type=page";?>
+      <div class="html_elements">
+        <div class="">
+          <div data-ul='el1' class='opendir'>
+            <a class="text-resize">
+              <img class='Folder text-resize' src='Files/Engine/img/FolderClose.svg' alt=''>
+              Элементы
+            </a>
+          </div>
+        </div>
+        <ul data-ul='el-el1' class="m_ul">
+          <div class="drag"
+            data-head="
+              <meta charset='UTF-8'>
+              <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+              <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+              <title>Document</title>"
+
+            data-elem="
+            <!DOCTYPE html>
+            <html lang='en'>
+            <head>
+              <meta charset='UTF-8'>
+              <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+              <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+              <title>Document</title>
+            </head>
+            <body>
+
+            </body>
+            </html>
+          ">
+            <a>
+              <li>HTML</li>
+            </a>
+          </div>
+
+          <div class="drag" data-elem="<div></div>">
+            <a>
+              <li>DIV</li>
+            </a>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <!----------------------------------------------------------------------------------------->
     <div class="popupwindow">
       <div class="AddFile">
         <div class="form-group">

@@ -1,0 +1,115 @@
+:root{
+  --MENU-WIDTH: 15vw;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body,html{
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+
+.Elements{
+  font-size: calc(var(--MENU-WIDTH) / 12);
+  position: fixed;
+  width: var(--MENU-WIDTH);
+  height: 100%;
+  background: #f0f;
+  display: none;
+  top: 0;
+  left: 0;
+  list-style-position: inside;
+}
+
+.atabs{
+  height: calc(var(--MENU-WIDTH) / 4);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+
+.atabs li{
+  display: flex;
+  width: 100%;
+}
+
+.atabs li a{
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: black;
+}
+
+.ElemDrag{
+  width: 100%;
+  display: block;
+  font-size: 2vw;
+  cursor: pointer;
+}
+
+.ElemDrag:hover{
+  background: #555;
+}
+
+.showElems{
+  width: 3vw;
+  height: 3vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  background-color: #f00;
+}
+
+#salutation{
+  border: none;
+  outline: none;
+  padding: 0;
+  font-size: calc(var(--MENU-WIDTH) / 12);
+  width: 100%;
+  height: 2vw;
+}
+
+.dtabs{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Selected {
+  border: #00f dashed 1px !important;
+  color: white;
+  box-sizing: border-box;
+}
+
+.styleinput{
+  font-size: calc(var(--MENU-WIDTH) / 12);
+  width: 100%;
+  outline: none;
+  border: none;
+  height: 1.8vw;
+}
+
+.stylebtn{
+  font-size: calc(var(--MENU-WIDTH) / 12);
+  width: 100%;
+  padding: 0;
+  border-width: 0.2vw;
+  outline: 0;
+  margin: 0.5vw;
+  height: 1.8vw;
+}
+
+option{
+  padding: 0;
+  display: block;
+}

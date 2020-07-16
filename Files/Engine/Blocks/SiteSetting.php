@@ -45,39 +45,6 @@
 
         }
 
-        /*for ($j=0; $j < mb_strlen($lines[$i]); $j++) {
-          if($lines[$i][$j] == '<'){
-            $opentag = true;
-            $insedetag = false;
-            $resline .= "<span class='symbol opentag'>".$lines[$i][$j]."</span>";
-          }
-          else if($lines[$i][$j] == '>' || ($lines[$i][$j] == ' ' && $opentag)){
-            if($lines[$i][$j] == '>'){
-              $opentag = false;
-              $insedetag = false;
-              $resline .= "<span class='symbol closetag'>".$lines[$i][$j]."</span>";
-            }
-            else{
-              $opentag = false;
-              $insedetag = true;
-              $resline .= "<span class='symbol inside-tag'>".$lines[$i][$j]."</span>";
-            }
-          }
-          else{
-            if($opentag && !$insedetag)
-              $resline .= "<span class='symbol tag'>".$lines[$i][$j]."</span>";
-            else if(!$opentag && $insedetag)
-              $resline .= "<span class='symbol inside-tag'>".$lines[$i][$j]."</span>";
-            else if(!$insedetag && !$insedetag) $resline .= "<span class='symbol'>".$lines[$i][$j]."</span>";
-          }
-        }
-        if($i==0)
-          $resline = "<div class='line'><div id='cursor'></div>".$resline."</div>";
-        else
-          $resline = "<div class='line'>".$resline."</div>";
-        $res .= $resline;
-     }*/
-
     return $res;
    }
    else{
@@ -106,7 +73,7 @@
     <?php $open = "open"; ?>
     <?php $path="admin.php?file=SiteSetting.php&$open=".$_GET["$open"]; ?>
     <a href="<?= $path ?>&type=page" class="text-light m-0 text-resize btn btn-secondary">Страница</a>
-    <a href="<?= $path ?>&type=constructor" class="text-light m-0 text-resize btn btn-secondary">Конструктор</a>
+    <a href="constructor.php?file=<?=$_GET["$open"];?>" class="text-light m-0 text-resize btn btn-secondary">Конструктор</a>
     <a href="<?= $path ?>&type=text" class="text-light m-0 text-resize btn btn-secondary">Текст</a>
   </div>
   <div id="textpage">
@@ -116,8 +83,15 @@
         if (!strstr($url,"type=page"))
         { echo 'd-none'; }
       ?>
-        viewpage" src="<?= $_GET["$open"]
-      ?>">
+        viewpage" src="<?= $_GET["$open"]?>">
+    </iframe>
+
+    <iframe id="Constructor" class="
+      <?php
+        $url = $_SERVER["REQUEST_URI"];
+        if (!strstr($url,"type=constructor"))
+        { echo 'd-none'; }
+      ?>" src="<?= $_GET["$open"] ?>">
     </iframe>
 
     <div id="Editor" class="

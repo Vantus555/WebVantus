@@ -375,7 +375,7 @@ iframe{
   left: 0;
   background: #444;
   opacity: 0.95;
-  z-index: 1000;
+  z-index: 5;
 }
 .AddFile{
   padding: 1vw;
@@ -437,7 +437,7 @@ iframe{
 }
 
 .FileSettigs{
-  z-index: 2000;
+  z-index: 10;
   display: none;
   color: #fff;
   position: fixed;
@@ -495,4 +495,9 @@ iframe{
   padding-bottom: 0 !important;
   border-top: var(--LINE-BORDER) solid #707070;
   border-bottom: var(--LINE-BORDER) solid #707070;
+}
+
+.Const{
+  width: 100%;
+  overflow: visible;
 }

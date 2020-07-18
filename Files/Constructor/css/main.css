@@ -70,7 +70,17 @@ body,html{
   background-color: #f00;
 }
 
-#salutation{
+.SafeFile{
+  width: 3vw;
+  height: 3vw;
+  position: fixed;
+  top: 3vw;
+  left: 0;
+  cursor: pointer;
+  background-color: #0f0;
+}
+
+#salutation, #id_num{
   border: none;
   outline: none;
   padding: 0;
@@ -80,9 +90,10 @@ body,html{
 }
 
 .dtabs{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-row-gap: 0.4vw;
+  padding: 0.75vw;
 }
 
 .Selected {
@@ -91,7 +102,7 @@ body,html{
   box-sizing: border-box;
 }
 
-.styleinput{
+.styleinput, .classoridinput{
   font-size: calc(var(--MENU-WIDTH) / 12);
   width: 100%;
   outline: none;
@@ -99,13 +110,11 @@ body,html{
   height: 1.8vw;
 }
 
-.stylebtn{
+.stylebtn, .classoridbtn, .deletebtn{
   font-size: calc(var(--MENU-WIDTH) / 12);
   width: 100%;
-  padding: 0;
   border-width: 0.2vw;
   outline: 0;
-  margin: 0.5vw;
   height: 1.8vw;
 }
 

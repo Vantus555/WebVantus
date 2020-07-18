@@ -75,6 +75,16 @@ class FileStream{
 
     $arr['html'] = trim($textnew);
 
+    //////////////////////////////////////
+    preg_match_all('/<link.*href="(.*)".*>/i',$arr['head'], $arr['links']);
+
+    $arr['links'] = $arr['links'][1];
+
+    for ($i=0; $i < count($arr['links']); $i++) {
+      if($arr['links'][$i] == '')
+        unset($arr['links'][$i]);
+    }
+    
     return $arr;
   }
 }

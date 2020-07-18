@@ -3,58 +3,8 @@
   <head>
 
     <meta charset="utf-8">
+    <link rel="stylesheet" href="indexcss.css">
     <title></title>
-    <style media="screen">
-    *{
-      z-index: 3;
-      margin: 0;
-      padding: 0;
-    }
-    body{
-      height: 10000px;
-    }
-    html,body{
-      border: none;
-    }
-    video{
-      z-index: 1;
-      display: block;
-      position: fixed;
-      width: 100%;
-      opacity: 0.75;
-    }
-    .menu{
-      width: 900px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-    }
-    .menua, .ahover{
-      display: block;
-      width: 100%;
-      background: #f0f;
-      border: 2px solid #000;
-      height: 25px;
-      text-align: center;
-      line-height: 25px;
-      text-decoration: none;
-      color: #fff;
-    }
-
-    .menua:hover, .ahover:hover{
-      background: #555;
-    }
-
-    ul{
-      width: 100%;
-      position: absolute;
-      display: none;
-      list-style: none;
-    }
-    .divhover{
-      position:relative;
-    }
-    </style>
     <link rel="stylesheet" href="">
   </head>
   <body>
